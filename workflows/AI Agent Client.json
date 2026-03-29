@@ -1,0 +1,226 @@
+{
+  "name": "AI Agent Client",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8e167175-98c3-43b6-b8c4-90e6de79012f",
+      "name": "Telegram Trigger",
+      "webhookId": "ed3c1449-fd9a-4386-96ff-a99bfa2d1cb5",
+      "credentials": {
+        "telegramApi": {
+          "id": "i5uYZf1Yk1Meolx4",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
+        "options": {
+          "systemMessage": "=You are a helpful assistant. Always respond in clear, natural language. Never include raw function calls, code snippets, or URLs in your responses."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "bc022f60-8f75-4987-b8ca-96298c8baa37",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        96,
+        208
+      ],
+      "id": "1cff838a-7bd1-4640-9147-eacfe5ec1f53",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "iKJ4bIs5wNHU9M5W",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "=https://marked-mischievous-gearldine.ngrok-free.dev/mcp/29aebce4-bbaa-46b9-a65b-d68ccb6d83f5",
+        "serverTransport": "sse",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        208
+      ],
+      "id": "081c9caa-e659-4323-aa9b-10d01ae8c03d",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "aphisit.jy@gmail.com",
+          "mode": "list",
+          "cachedResultName": "aphisit.jy@gmail.com"
+        },
+        "start": "={{ $fromAI('start') }}",
+        "end": "={{ $fromAI('end') }}",
+        "additionalFields": {
+          "summary": "={{ $fromAI('summary') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        576,
+        208
+      ],
+      "id": "e8334c3e-901c-4492-870e-c2d53335a240",
+      "name": "Create an event in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "67dYshkaB3gPAvca",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "{{ $('Telegram Trigger').item.json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        272,
+        208
+      ],
+      "id": "eefe460b-c56a-4e12-8c58-6f1fcb43ccbd",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        0
+      ],
+      "id": "b90af963-c7d0-43c7-979a-78606c1ecebb",
+      "name": "Send a text message",
+      "webhookId": "0449e7fa-3c32-415a-880c-5417df1477d5",
+      "credentials": {
+        "telegramApi": {
+          "id": "jk9dbKLmPRQ6xyEY",
+          "name": "Telegram account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "91c8f10c-9229-4576-8713-11bb96e06c50",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e35c476415069b3a830d6bdc0b91552fbc89de6beef239d50fcb4c48f95cb95c"
+  },
+  "id": "5BM1DP98EvHYWtmt",
+  "tags": []
+}

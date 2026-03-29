@@ -1,0 +1,111 @@
+{
+  "name": "MCP Server",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "29aebce4-bbaa-46b9-a65b-d68ccb6d83f5"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "fe2e4d74-b99d-4b8b-981c-4e48bc172928",
+      "name": "MCP Server Trigger",
+      "webhookId": "29aebce4-bbaa-46b9-a65b-d68ccb6d83f5"
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to calculate math expressions. Input should be a math expression like 2+2 or 10*5.",
+        "jsCode": "return String(eval(query));"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        -32,
+        208
+      ],
+      "id": "d5f48449-ef09-40e6-aa19-5c277d678fd7",
+      "name": "Code Tool",
+      "notes": "Calculator"
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to get the current date and time.",
+        "jsCode": "return new Date().toString();"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        208
+      ],
+      "id": "e2704351-283a-4de4-bc86-f954a9fc50dd",
+      "name": "Code Tool1",
+      "notes": "DateTime"
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to format text. Input a text string to get uppercase, lowercase, and length.",
+        "jsCode": "return \\Upper: ${query.toUpperCase()} | Lower: ${query.toLowerCase()} | Length: ${query.length}`;`"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        208
+      ],
+      "id": "d060d570-8938-4312-ae7a-c45a0c652bbb",
+      "name": "Code Tool2",
+      "notes": "TextFormatter"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Code Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Tool2": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c3d0ac2d-7c44-45a4-9dbf-f1de1d4aff47",
+  "meta": {
+    "instanceId": "e35c476415069b3a830d6bdc0b91552fbc89de6beef239d50fcb4c48f95cb95c"
+  },
+  "id": "C9C7PQZmEZjgAYWj",
+  "tags": []
+}
