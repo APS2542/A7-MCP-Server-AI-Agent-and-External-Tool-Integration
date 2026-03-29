@@ -2,7 +2,7 @@
 
 **Course:** AT82.05 Artificial Intelligence: Natural Language Understanding (NLU)  
 **Assignment:** A7 — MCP-Server, AI Agent, and External Tool Integration  
-**Student:** Aphisit (GitHub: [APS2542](https://github.com/APS2542))
+**Student:** Aphisit Jaemyaem st126130
 
 ---
 
@@ -39,11 +39,11 @@ docker run -it --rm --name n8n -p 5678:5678 \
 
 **Screenshot — ngrok running:**
 
-![ngrok](screenshots/task1_ngrok_running.png)
+![ngrok](task1_ngrok_running.png)
 
 **Screenshot — n8n Overview (both workflows Published):**
 
-![n8n Overview](screenshots/task1_n8n_overview.png)
+![n8n Overview](task1_n8n_overview.png)
 
 ---
 
@@ -55,7 +55,7 @@ An n8n workflow acts as an MCP Server with **3 internal tools**:
 
 **Screenshot — MCP Server Workflow:**
 
-![MCP Server](screenshots/task1_mcp_server_workflow.png)
+![MCP Server](task1_mcp_server_workflow.png)
 
 ---
 
@@ -67,7 +67,7 @@ A separate AI Agent workflow was configured with:
 
 **Screenshot — AI Agent Client Workflow:**
 
-![AI Agent](screenshots/task1_ai_agent_workflow.png)
+![AI Agent](task1_ai_agent_workflow.png)
 
 ---
 
@@ -91,11 +91,11 @@ The agent was instructed via Telegram to create a 4-phase project schedule:
 
 **Screenshot — Telegram Conversation:**
 
-![Telegram](screenshots/task2_telegram_conversation.png)
+![Telegram](task2_telegram_conversation.png)
 
 **Screenshot — Google Calendar Events:**
 
-![Google Calendar](screenshots/task2_google_calendar.png)
+![Google Calendar](task2_google_calendar.png)
 
 ### 2.4 Interaction Verification
 The agent successfully:
